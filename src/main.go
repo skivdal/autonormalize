@@ -52,5 +52,17 @@ func main() {
 		log.Fatalf("Could not load data from CSV to sqlite: %s", err)
 	}
 
-	// TODO: Start normalizing
+	// 1st Normal Form omitted. Maybe look for JSON fields in the future...
+
+	// 2nd Normal Form
+	n := &Nf2{Db: db}
+	script, err := n.RecommendUpdate()
+	if err != nil {
+		log.Errorf("Could not generate script for 2NF: %s", err)
+	}
+
+	_, err = db.Exec(script)
+	if err != nil {
+		log.Fatalf("Could not execute script for 2NF: %s", err)
+	}
 }
